@@ -27,7 +27,7 @@ class PlayerNameConversation extends Conversation
 
         $this->ask('Введите имя игрока', function ( Answer $answer) {
 
-            if ($answer->isInteractiveMessageReply()) {
+
                 $full_name = $answer->getText();
 
 
@@ -38,7 +38,7 @@ class PlayerNameConversation extends Conversation
                 $this->bot->reply("Значение " . $this->bot->userStorage()->get("full_name") . " установлено!");
 
                 $this->filterMenu("Обновлен фильтр");
-            }
+
 
         });
     }
