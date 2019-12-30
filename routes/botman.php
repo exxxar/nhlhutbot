@@ -786,7 +786,7 @@ $botman->hears("Height Min.*", function ($bot) {
 
         array_push($tmp_menu, ["text" => $ptype["title"], "callback_data" => "/filter height_min " . $ptype["value"]]);
 
-        if ($key % 3 == 0 || count(MENU["height"]) == $key + 1) {
+        if ($key % 6 == 0 || count(MENU["height"]) == $key + 1) {
             array_push($inline_keyboard, $tmp_menu);
             $tmp_menu = [];
         }
@@ -816,7 +816,7 @@ $botman->hears("Height Max.*", function ($bot) {
 
         array_push($tmp_menu, ["text" => $ptype["title"], "callback_data" => "/filter height_max " . $ptype["value"]]);
 
-        if ($key % 3 == 0 || count(MENU["height"]) == $key + 1) {
+        if ($key % 6 == 0 || count(MENU["height"]) == $key + 1) {
             array_push($inline_keyboard, $tmp_menu);
             $tmp_menu = [];
         }
