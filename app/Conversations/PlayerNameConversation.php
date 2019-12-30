@@ -86,9 +86,8 @@ class PlayerNameConversation extends Conversation
                 "full_name" => strlen(trim($full_name)) == 0 ? null : $full_name
             ]);
 
-            $this->bot->reply("Значение установлено!");
+            $this->bot->reply("Значение ".$this->bot->userStorage("full_name")." установлено!");
 
-            $this->filterMenu( "Фильтр full_name изменен");
 
         });
     }

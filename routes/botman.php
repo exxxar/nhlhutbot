@@ -628,13 +628,7 @@ $botman->hears("/card_info ([0-9]+)", function ($bot, $cardId) {
 
 });
 
-$botman->hears("Player Name.*", function ($bot) {
-
-
-
-
-
-});
+$botman->hears("Player Name.*",BotManController::class.'@playerNameConversation' );
 
 
 $botman->hears("Player Type.*", function ($bot) {
