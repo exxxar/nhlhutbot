@@ -513,12 +513,52 @@ $botman->hears("Все карточки", function ($bot) {
     $telegramUser = $bot->getUser();
     $id = $telegramUser->getId();
 
+    $index = 0;
+
+    $full_name = $bot->userStorage()->get("full_name") ?? '';
+    $card = $bot->userStorage()->get("card") ?? '';
+    $ptype = $bot->userStorage()->get("ptype") ?? '';
+    $synergies = $bot->userStorage()->get("synergies") ?? '';
+    $league = $bot->userStorage()->get("league") ?? '';
+    $team = $bot->userStorage()->get("team") ?? '';
+    $nationality = $bot->userStorage()->get("nationality") ?? '';
+    $position = $bot->userStorage()->get("position") ?? '';
+    $hand = $bot->userStorage()->get("hand") ?? '';
+
+
+    $overall_min = $bot->userStorage()->get("overall_min") ?? '';
+    $overall_max = $bot->userStorage()->get("overall_max") ?? '';
+
+
+    $height_min = $bot->userStorage()->get("height_min") ?? '';
+    $height_max = $bot->userStorage()->get("height_max") ?? '';
+
+
+    $weight_min = $bot->userStorage()->get("weight_min") ?? '';
+    $weight_max = $bot->userStorage()->get("weight_max") ?? '';
+
+
+    $query = "draw=5&start=0&length=10";
+
+    $query .= "&columns[$index][data]=overall&columns[$index][search][value]=$overall_min<$overall_max&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=full_name&columns[$index][search][value]=$full_name&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=league&columns[$index][search][value]=$league&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=position&columns[$index][search][value]=$position&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=hand&columns[$index][search][value]=$hand&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=height&columns[$index][search][value]=$height_min<$height_max&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=synergies&columns[$index][search][value]=$synergies&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=team&columns[$index][search][value]=$team&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=ptype&columns[$index][search][value]=$ptype&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=card&columns[$index][search][value]=$card&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=weight&columns[$index][search][value]=$weight_min<$weight_max&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=nationality&columns[$index][search][value]=$nationality&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+
     try {
         $context = stream_context_create(array(
             'http' => array(
                 'method' => 'POST',
                 'header' => 'Content-Type: application/x-www-form-urlencoded' . PHP_EOL,
-                'content' => 'draw=5&start=0&length=10'
+                'content' => $query
             ),
         ));
         $content = file_get_contents(
@@ -1030,12 +1070,54 @@ $botman->hears("/all_cards ([0-9]+)", function ($bot, $page) {
     $telegramUser = $bot->getUser();
     $id = $telegramUser->getId();
 
+    $index = 0;
+
+    $full_name = $bot->userStorage()->get("full_name") ?? '';
+    $card = $bot->userStorage()->get("card") ?? '';
+    $ptype = $bot->userStorage()->get("ptype") ?? '';
+    $synergies = $bot->userStorage()->get("synergies") ?? '';
+    $league = $bot->userStorage()->get("league") ?? '';
+    $team = $bot->userStorage()->get("team") ?? '';
+    $nationality = $bot->userStorage()->get("nationality") ?? '';
+    $position = $bot->userStorage()->get("position") ?? '';
+    $hand = $bot->userStorage()->get("hand") ?? '';
+
+
+    $overall_min = $bot->userStorage()->get("overall_min") ?? '';
+    $overall_max = $bot->userStorage()->get("overall_max") ?? '';
+
+
+    $height_min = $bot->userStorage()->get("height_min") ?? '';
+    $height_max = $bot->userStorage()->get("height_max") ?? '';
+
+
+    $weight_min = $bot->userStorage()->get("weight_min") ?? '';
+    $weight_max = $bot->userStorage()->get("weight_max") ?? '';
+
+
+    $query = "draw=5&start=" . ($page * 10) . "&length=10";
+
+    $query .= "&columns[$index][data]=overall&columns[$index][search][value]=$overall_min<$overall_max&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=full_name&columns[$index][search][value]=$full_name&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=league&columns[$index][search][value]=$league&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=position&columns[$index][search][value]=$position&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=hand&columns[$index][search][value]=$hand&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=height&columns[$index][search][value]=$height_min<$height_max&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=synergies&columns[$index][search][value]=$synergies&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=team&columns[$index][search][value]=$team&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=ptype&columns[$index][search][value]=$ptype&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=card&columns[$index][search][value]=$card&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=weight&columns[$index][search][value]=$weight_min<$weight_max&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+    $query .= "&columns[".(++$index)."][data]=nationality&columns[$index][search][value]=$nationality&columns[${index}][searchable]=true&olumns[$index][orderable]=true&columns[$index][search][regex]=true";
+
+
+
     try {
         $context = stream_context_create(array(
             'http' => array(
                 'method' => 'POST',
                 'header' => 'Content-Type: application/x-www-form-urlencoded' . PHP_EOL,
-                'content' => 'draw=5&start=' . ($page * 10) . '&length=10'
+                'content' => $query
             ),
         ));
         $content = file_get_contents(
@@ -1066,7 +1148,7 @@ $botman->hears("/all_cards ([0-9]+)", function ($bot, $page) {
 
         $keybord = [
             [
-                ['text' => "\xE2\x8F\xA9Информация по карточке", 'callback_data' => "/card_info $cardId"]
+                ['text' => "\xF0\x9F\x83\x8FИнформация по карточке", 'callback_data' => "/card_info $cardId"]
             ]
         ];
 
@@ -1074,7 +1156,7 @@ $botman->hears("/all_cards ([0-9]+)", function ($bot, $page) {
             if ($page > 0)
                 array_push($keybord, [
                     ['text' => "\xE2\x8F\xA9Дальше", 'callback_data' => '/all_cards ' . ($page + 1)],
-                    ['text' => "\xE2\x8F\xA9Назад", 'callback_data' => '/all_cards ' . ($page - 1)],
+                    ['text' => "\xE2\x8F\xAAНазад", 'callback_data' => '/all_cards ' . ($page - 1)],
                 ]);
 
             if ($page == 0)
