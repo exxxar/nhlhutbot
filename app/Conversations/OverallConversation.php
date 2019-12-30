@@ -27,33 +27,36 @@ class OverallConversation extends Conversation
 
     public function minOverall(){
         $this->ask('Минимальное значение', function ( Answer $answer) {
+            if ($answer->isInteractiveMessageReply()) {
+                $overall = $answer->getText();
 
-            $overall= $answer->getText();
 
+                $this->bot->userStorage()->save([
+                    "overall_min" => strlen(trim($overall)) == 0 ? null : $overall
+                ]);
 
-            $this->bot->userStorage()->save([
-                "overall_min" => strlen(trim($overall)) == 0 ? null : $overall
-            ]);
+                $this->bot->reply("Значение " . $this->bot->userStorage()->get("overall_min") . " установлено!");
 
-            $this->bot->reply("Значение ".$this->bot->userStorage()->get("overall_min")." установлено!");
-
-            $this->maxOverall();
+                $this->maxOverall();
+            }
 
         });
     }
     public function maxOverall(){
         $this->ask('Максимальное значние', function ( Answer $answer) {
 
-            $overall= $answer->getText();
+            if ($answer->isInteractiveMessageReply()) {
+                $overall = $answer->getText();
 
 
-            $this->bot->userStorage()->save([
-                "overall_max" => strlen(trim($overall)) == 0 ? null : $overall
-            ]);
+                $this->bot->userStorage()->save([
+                    "overall_max" => strlen(trim($overall)) == 0 ? null : $overall
+                ]);
 
-            $this->bot->reply("Значение ".$this->bot->userStorage()->get("overall_max")." установлено!");
+                $this->bot->reply("Значение " . $this->bot->userStorage()->get("overall_max") . " установлено!");
 
-            $this->filterMenu("Обновлен фильтр");
+                $this->filterMenu("Обновлен фильтр");
+            }
         });
     }
 }

@@ -1034,7 +1034,6 @@ $botman->hears("/all_cards ([0-9]+)", function ($bot, $page) {
     $id = $telegramUser->getId();
 
 
-
     $query = "draw=5&start=" . ($page * 10) . "&length=10";
 
     try {
@@ -1108,45 +1107,70 @@ $botman->hears("Применить фильтр", function ($bot) {
 
     $index = 0;
 
-    $full_name = $bot->userStorage()->get("full_name") ?? '';
-    $card = $bot->userStorage()->get("card") ?? '';
-    $ptype = $bot->userStorage()->get("ptype") ?? '';
-    $synergies = $bot->userStorage()->get("synergies") ?? '';
-    $league = $bot->userStorage()->get("league") ?? '';
-    $team = $bot->userStorage()->get("team") ?? '';
-    $nationality = $bot->userStorage()->get("nationality") ?? '';
-    $position = $bot->userStorage()->get("position") ?? '';
-    $hand = $bot->userStorage()->get("hand") ?? '';
+    $full_name = $bot->userStorage()->get("full_name") ?? null;
+    $card = $bot->userStorage()->get("card") ?? null;
+    $ptype = $bot->userStorage()->get("ptype") ?? null;
+    $synergies = $bot->userStorage()->get("synergies") ?? null;
+    $league = $bot->userStorage()->get("league") ?? null;
+    $team = $bot->userStorage()->get("team") ?? null;
+    $nationality = $bot->userStorage()->get("nationality") ?? null;
+    $position = $bot->userStorage()->get("position") ?? null;
+    $hand = $bot->userStorage()->get("hand") ?? null;
 
 
-    $overall_min = $bot->userStorage()->get("overall_min") ?? '';
-    $overall_max = $bot->userStorage()->get("overall_max") ?? '';
+    $overall_min = $bot->userStorage()->get("overall_min") ?? null;
+    $overall_max = $bot->userStorage()->get("overall_max") ?? null;
 
+    $overall = ($overall_min && $overall_max) ?? null;
 
-    $height_min = $bot->userStorage()->get("height_min") ?? '';
-    $height_max = $bot->userStorage()->get("height_max") ?? '';
+    $height_min = $bot->userStorage()->get("height_min") ?? null;
+    $height_max = $bot->userStorage()->get("height_max") ?? null;
 
+    $height = ($height_min && $height_max) ?? null;
 
-    $weight_min = $bot->userStorage()->get("weight_min") ?? '';
-    $weight_max = $bot->userStorage()->get("weight_max") ?? '';
+    $weight_min = $bot->userStorage()->get("weight_min") ?? null;
+    $weight_max = $bot->userStorage()->get("weight_max") ?? null;
 
+    $weight = ($weight_min && $weight_max) ?? null;
 
     $query = "draw=5&start=0&length=100";
 
-    $query .= "&columns[$index][data]=overall&columns[$index][search][value]=$overall_min<$overall_max&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
-    $query .= "&columns[".(++$index)."][data]=full_name&columns[$index][search][value]=$full_name&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
-    $query .= "&columns[".(++$index)."][data]=league&columns[$index][search][value]=$league&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
-    $query .= "&columns[".(++$index)."][data]=position&columns[$index][search][value]=$position&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
-    $query .= "&columns[".(++$index)."][data]=hand&columns[$index][search][value]=$hand&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
-    $query .= "&columns[".(++$index)."][data]=height&columns[$index][search][value]=$height_min<$height_max&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
-    $query .= "&columns[".(++$index)."][data]=synergies&columns[$index][search][value]=$synergies&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
-    $query .= "&columns[".(++$index)."][data]=team&columns[$index][search][value]=$team&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
-    $query .= "&columns[".(++$index)."][data]=ptype&columns[$index][search][value]=$ptype&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
-    $query .= "&columns[".(++$index)."][data]=card&columns[$index][search][value]=$card&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
-    $query .= "&columns[".(++$index)."][data]=weight&columns[$index][search][value]=$weight_min<$weight_max&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
-    $query .= "&columns[".(++$index)."][data]=nationality&columns[$index][search][value]=$nationality&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
+    if ($overall)
+        $query .= "&columns[$index][data]=overall&columns[$index][search][value]=$overall_min<$overall_max&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
+
+    if (strlen(trim($full_name)) > 0)
+        $query .= "&columns[" . (++$index) . "][data]=full_name&columns[$index][search][value]=$full_name&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
+
+    if ($league)
+        $query .= "&columns[" . (++$index) . "][data]=league&columns[$index][search][value]=$league&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
+
+    if ($position)
+        $query .= "&columns[" . (++$index) . "][data]=position&columns[$index][search][value]=$position&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
+
+    if ($hand)
+        $query .= "&columns[" . (++$index) . "][data]=hand&columns[$index][search][value]=$hand&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
+
+    if ($height)
+        $query .= "&columns[" . (++$index) . "][data]=height&columns[$index][search][value]=$height_min<$height_max&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
+    if ($synergies)
+        $query .= "&columns[" . (++$index) . "][data]=synergies&columns[$index][search][value]=$synergies&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
+    if ($team)
+        $query .= "&columns[" . (++$index) . "][data]=team&columns[$index][search][value]=$team&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
+
+    if ($ptype)
+        $query .= "&columns[" . (++$index) . "][data]=ptype&columns[$index][search][value]=$ptype&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
+
+    if ($card)
+        $query .= "&columns[" . (++$index) . "][data]=card&columns[$index][search][value]=$card&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
+
+    if ($weight)
+        $query .= "&columns[" . (++$index) . "][data]=weight&columns[$index][search][value]=$weight_min<$weight_max&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
+
+    if ($nationality)
+        $query .= "&columns[" . (++$index) . "][data]=nationality&columns[$index][search][value]=$nationality&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
 
 
+    Log::info($query);
 
     try {
         $context = stream_context_create(array(

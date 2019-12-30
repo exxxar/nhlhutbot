@@ -27,36 +27,38 @@ class WeightConversation extends Conversation
 
     public function minWeight(){
         $this->ask('Минимальное значение', function ( Answer $answer) {
+            if ($answer->isInteractiveMessageReply()) {
+                $weight = $answer->getText();
 
-            $weight= $answer->getText();
 
+                $this->bot->userStorage()->save([
+                    "weight_min" => strlen(trim($weight)) == 0 ? null : $weight
+                ]);
 
-            $this->bot->userStorage()->save([
-                "weight_min" => strlen(trim($weight)) == 0 ? null : $weight
-            ]);
+                $this->bot->reply("Значение " . $this->bot->userStorage()->get("weight_min") . " установлено!");
 
-            $this->bot->reply("Значение ".$this->bot->userStorage()->get("weight_min")." установлено!");
+                $this->filterMenu("Обновлен фильтр");
 
-            $this->filterMenu("Обновлен фильтр");
-
-            $this->maxWeight();
+                $this->maxWeight();
+            }
 
         });
     }
     public function maxWeight(){
         $this->ask('Максимальное значние', function ( Answer $answer) {
 
+            if ($answer->isInteractiveMessageReply()) {
+                $weight = $answer->getText();
 
-            $weight= $answer->getText();
 
+                $this->bot->userStorage()->save([
+                    "weight_max" => strlen(trim($weight)) == 0 ? null : $weight
+                ]);
 
-            $this->bot->userStorage()->save([
-                "weight_max" => strlen(trim($weight)) == 0 ? null : $weight
-            ]);
+                $this->bot->reply("Значение " . $this->bot->userStorage()->get("weight_max") . " установлено!");
 
-            $this->bot->reply("Значение ".$this->bot->userStorage()->get("weight_max")." установлено!");
-
-            $this->filterMenu("Обновлен фильтр");
+                $this->filterMenu("Обновлен фильтр");
+            }
         });
     }
 }

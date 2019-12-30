@@ -27,16 +27,18 @@ class PlayerNameConversation extends Conversation
 
         $this->ask('Введите имя игрока', function ( Answer $answer) {
 
-            $full_name = $answer->getText();
+            if ($answer->isInteractiveMessageReply()) {
+                $full_name = $answer->getText();
 
 
-            $this->bot->userStorage()->save([
-                "full_name" => strlen(trim($full_name)) == 0 ? null : $full_name
-            ]);
+                $this->bot->userStorage()->save([
+                    "full_name" => strlen(trim($full_name)) == 0 ? null : $full_name
+                ]);
 
-            $this->bot->reply("Значение ".$this->bot->userStorage()->get("full_name")." установлено!");
+                $this->bot->reply("Значение " . $this->bot->userStorage()->get("full_name") . " установлено!");
 
-            $this->filterMenu("Обновлен фильтр");
+                $this->filterMenu("Обновлен фильтр");
+            }
 
         });
     }
