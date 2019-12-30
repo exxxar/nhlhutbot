@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Conversations\CardSearchConversation;
+use App\Conversations\PlayerNameConversation;
 use BotMan\BotMan\BotMan;
 use Illuminate\Http\Request;
 use App\Conversations\ExampleConversation;
@@ -41,4 +42,11 @@ class BotManController extends Controller
 
         $bot->startConversation(new CardSearchConversation($bot));
     }
+
+    public function playerNameConversation(BotMan $bot)
+    {
+
+        $bot->startConversation(new PlayerNameConversation($bot));
+    }
+
 }
