@@ -1023,7 +1023,7 @@ $botman->hears("Nationality.*", function ($bot) {
         ]);
 });
 
-$botman->hears("Поиск карточек", function ($bot) {
+$botman->hears("Поиск карточек|Фильтр карточек", function ($bot) {
     filterMenu($bot, "Выбо фильтра");
 });
 $botman->hears("/all_cards ([0-9]+)", function ($bot, $page) {
