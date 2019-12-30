@@ -631,7 +631,7 @@ $botman->hears("/card_info ([0-9]+)", function ($bot, $cardId) {
 $botman->hears("Player Name.*", function ($bot) {
 
 
-    $bot->ask('Введите имя игрока', function (Answer $answer) use ($bot) {
+    $bot->ask('Введите имя игрока', function ($bot, Answer $answer) {
 
         $full_name = $answer->getText();
 
