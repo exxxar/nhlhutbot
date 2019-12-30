@@ -17,7 +17,7 @@ trait CustomConversation
 {
     protected $keyboard = [
         ["Все карточки"],
-        ["Фильтр карточек","Сбросить фильтр"],
+        ["Фильтр карточек"],
         ["Как пользоваться"],
 
     ];
@@ -63,6 +63,7 @@ trait CustomConversation
         $weight = ($weight_min || $weight_max) ?? null;
 
         $keyboard = [
+            ["Применить фильтр"],
             ["Player Name" . ($full_name == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"), "Player Type" . ($ptype == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
             ["Card Type" . ($card == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"), "Synergy" . ($synergies == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
             ["League" . ($league == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"), "Team" . ($team == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
