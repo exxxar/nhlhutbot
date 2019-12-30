@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Conversations\CardSearchConversation;
+use App\Conversations\OverallConversation;
 use App\Conversations\PlayerNameConversation;
+use App\Conversations\WeightConversation;
 use BotMan\BotMan\BotMan;
 use Illuminate\Http\Request;
 use App\Conversations\ExampleConversation;
@@ -47,6 +49,18 @@ class BotManController extends Controller
     {
 
         $bot->startConversation(new PlayerNameConversation($bot));
+    }
+
+    public function overallConversation(BotMan $bot)
+    {
+
+        $bot->startConversation(new OverallConversation($bot));
+    }
+
+    public function weightConversation(BotMan $bot)
+    {
+
+        $bot->startConversation(new WeightConversation($bot));
     }
 
 }

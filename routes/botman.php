@@ -365,7 +365,84 @@ const MENU = [
     ],
     "nationality" => [
         "Australia", "Austria", "Belarus", "Belgium", "Canada", "Croatia", "Czech Republic", "Denmark", "England", "Estonia", "Finland", "France", "Germany", "Hungary", "Italy", "Latvia", "Liberia", "Lithuania", "Netherlands", "Norway", "Poland", "Romania", "Russia", "Slovakia", "Slovenia", "Sweden", "Switzerland", "USA", "Ukraine",
+    ],
+    "hand" => [
+        ["value" => "ANY", "title" => "Both"],
+        ["value" => "right", "title" => "Right"],
+        ["value" => "left", "title" => "Left"],
+    ],
+    "position" => [
+        ["value" => "ANY", "title" => "All"],
+        ["value" => "FWD", "title" => "Forwards"],
+        ["value" => "DEF", "title" => "Defense"],
+        ["value" => "LW", "title" => "LW"],
+        ["value" => "C", "title" => "C"],
+        ["value" => "RW", "title" => "RW"],
+        ["value" => "LD", "title" => "LD"],
+        ["value" => "RD", "title" => "RD"],
+    ],
+    "height" => [
+        ["value" => "241", "title" => "7' 11"],
+        ["value" => "239", "title" => "7' 10"],
+        ["value" => "236", "title" => "7' 9"],
+        ["value" => "234", "title" => "7' 8"],
+        ["value" => "231", "title" => "7' 7"],
+        ["value" => "229", "title" => "7' 6"],
+        ["value" => "226", "title" => "7' 5"],
+        ["value" => "224", "title" => "7' 4"],
+        ["value" => "221", "title" => "7' 3"],
+        ["value" => "218", "title" => "7' 2"],
+        ["value" => "216", "title" => "7' 1"],
+        ["value" => "213", "title" => "7' 0"],
+        ["value" => "211", "title" => "6' 11"],
+        ["value" => "208", "title" => "6' 10"],
+        ["value" => "206", "title" => "6' 9"],
+        ["value" => "203", "title" => "6' 8"],
+        ["value" => "201", "title" => "6' 7"],
+        ["value" => "198", "title" => "6' 6"],
+        ["value" => "196", "title" => "6' 5"],
+        ["value" => "193", "title" => "6' 4"],
+        ["value" => "190", "title" => "6' 3"],
+        ["value" => "188", "title" => "6' 2"],
+        ["value" => "185", "title" => "6' 1"],
+        ["value" => "183", "title" => "6' 0"],
+        ["value" => "180", "title" => "5' 11"],
+        ["value" => "178", "title" => "5' 10"],
+        ["value" => "175", "title" => "5' 9"],
+        ["value" => "173", "title" => "5' 8"],
+        ["value" => "170", "title" => "5' 7"],
+        ["value" => "168", "title" => "5' 6"],
+        ["value" => "165", "title" => "5' 5"],
+        ["value" => "163", "title" => "5' 4"],
+        ["value" => "160", "title" => "5' 3"],
+        ["value" => "157", "title" => "5' 2"],
+        ["value" => "155", "title" => "5' 1"],
+        ["value" => "152", "title" => "5' 0"],
+        ["value" => "150", "title" => "4' 11"],
+        ["value" => "147", "title" => "4' 10"],
+        ["value" => "145", "title" => "4' 9"],
+        ["value" => "142", "title" => "4' 8"],
+        ["value" => "140", "title" => "4' 7"],
+        ["value" => "137", "title" => "4' 6"],
+        ["value" => "135", "title" => "4' 5"],
+        ["value" => "132", "title" => "4' 4"],
+        ["value" => "130", "title" => "4' 3"],
+        ["value" => "127", "title" => "4' 2"],
+        ["value" => "124", "title" => "4' 1"],
+        ["value" => "122", "title" => "4' 0"],
+        ["value" => "119", "title" => "3' 11"],
+        ["value" => "117", "title" => "3' 10"],
+        ["value" => "114", "title" => "3' 9"],
+        ["value" => "112", "title" => "3' 8"],
+        ["value" => "109", "title" => "3' 7"],
+        ["value" => "107", "title" => "3' 6"],
+        ["value" => "104", "title" => "3' 5"],
+        ["value" => "102", "title" => "3' 4"],
+        ["value" => "99", "title" => "3' 3"],
+        ["value" => "97", "title" => "3' 2"],
+        ["value" => "94", "title" => "3' 1"],
     ]
+
 
 ];
 
@@ -384,6 +461,10 @@ function filterMenu($bot, $message)
     $league = $bot->userStorage()->get("league") ?? null;
     $team = $bot->userStorage()->get("team") ?? null;
     $nationality = $bot->userStorage()->get("nationality") ?? null;
+    $position = $bot->userStorage()->get("position") ?? null;
+    $hand = $bot->userStorage()->get("hand") ?? null;
+
+
 
     $overall_min = $bot->userStorage()->get("overall_min") ?? null;
     $overall_max = $bot->userStorage()->get("overall_max") ?? null;
@@ -405,7 +486,9 @@ function filterMenu($bot, $message)
         ["Card Type" . ($card == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"), "Synergy" . ($synergies == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
         ["League" . ($league == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"), "Team" . ($team == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
         ["Nationality" . ($nationality == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"), "Overall" . ($overall == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
-        ["Height" . ($height == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"), "Weight" . ($weight == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
+        ["Height Min" . ($height_min == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"),"Height Max" . ($height_max == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85") ],
+        ["Weight" . ($weight == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85") ],
+        ["Position" . ($position == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"), "Hand" . ($hand == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
         ["Сбросить фильтр"],
         ["Главное меню"],
     ];
@@ -425,7 +508,7 @@ function filterMenu($bot, $message)
         ]);
 }
 
-$botman->hears("/start|Главное меню", BotManController::class.'@cardSearchConversation');
+$botman->hears("/start|Главное меню", BotManController::class . '@cardSearchConversation');
 
 $botman->hears("Все карточки", function ($bot) {
     $telegramUser = $bot->getUser();
@@ -628,8 +711,129 @@ $botman->hears("/card_info ([0-9]+)", function ($bot, $cardId) {
 
 });
 
-$botman->hears("Player Name.*",BotManController::class.'@playerNameConversation' );
+$botman->hears("Player Name.*", BotManController::class . '@playerNameConversation');
+$botman->hears("Overall.*", BotManController::class . '@overallConversation');
+$botman->hears("Weight.*", BotManController::class . '@weightConversation');
 
+$botman->hears("Position.*", function ($bot) {
+    $telegramUser = $bot->getUser();
+    $id = $telegramUser->getId();
+
+    $inline_keyboard = [];
+    $tmp_menu = [];
+
+    foreach (MENU["position"] as $key => $ptype) {
+
+        array_push($tmp_menu, ["text" => $ptype["title"], "callback_data" => "/filter position " . $ptype["value"]]);
+
+        if ($key % 2 == 0 || count(MENU["position"]) == $key + 1) {
+            array_push($inline_keyboard, $tmp_menu);
+            $tmp_menu = [];
+        }
+    }
+
+    $bot->sendRequest("sendMessage",
+        [
+            "chat_id" => "$id",
+            "text" => "Выбор фильтра",
+            "parse_mode" => "Markdown",
+            'reply_markup' => json_encode([
+                'inline_keyboard' => $inline_keyboard,
+
+            ])
+
+        ]);
+});
+
+$botman->hears("Hand.*", function ($bot) {
+    $telegramUser = $bot->getUser();
+    $id = $telegramUser->getId();
+
+    $inline_keyboard = [];
+    $tmp_menu = [];
+
+    foreach (MENU["hand"] as $key => $ptype) {
+
+        array_push($tmp_menu, ["text" => $ptype["title"], "callback_data" => "/filter hand " . $ptype["value"]]);
+
+        if ($key % 3 == 0 || count(MENU["hand"]) == $key + 1) {
+            array_push($inline_keyboard, $tmp_menu);
+            $tmp_menu = [];
+        }
+    }
+
+    $bot->sendRequest("sendMessage",
+        [
+            "chat_id" => "$id",
+            "text" => "Выбор фильтра",
+            "parse_mode" => "Markdown",
+            'reply_markup' => json_encode([
+                'inline_keyboard' => $inline_keyboard,
+
+            ])
+
+        ]);
+});
+
+$botman->hears("Height Min.*", function ($bot) {
+    $telegramUser = $bot->getUser();
+    $id = $telegramUser->getId();
+
+    $inline_keyboard = [];
+    $tmp_menu = [];
+
+    foreach (MENU["height"] as $key => $ptype) {
+
+        array_push($tmp_menu, ["text" => $ptype["title"], "callback_data" => "/filter height_min " . $ptype["value"]]);
+
+        if ($key % 3 == 0 || count(MENU["height"]) == $key + 1) {
+            array_push($inline_keyboard, $tmp_menu);
+            $tmp_menu = [];
+        }
+    }
+
+    $bot->sendRequest("sendMessage",
+        [
+            "chat_id" => "$id",
+            "text" => "Выбор фильтра",
+            "parse_mode" => "Markdown",
+            'reply_markup' => json_encode([
+                'inline_keyboard' => $inline_keyboard,
+
+            ])
+
+        ]);
+});
+
+$botman->hears("Height Max.*", function ($bot) {
+    $telegramUser = $bot->getUser();
+    $id = $telegramUser->getId();
+
+    $inline_keyboard = [];
+    $tmp_menu = [];
+
+    foreach (MENU["height"] as $key => $ptype) {
+
+        array_push($tmp_menu, ["text" => $ptype["title"], "callback_data" => "/filter height_max " . $ptype["value"]]);
+
+        if ($key % 3 == 0 || count(MENU["height"]) == $key + 1) {
+            array_push($inline_keyboard, $tmp_menu);
+            $tmp_menu = [];
+        }
+    }
+
+    $bot->sendRequest("sendMessage",
+        [
+            "chat_id" => "$id",
+            "text" => "Выбор фильтра",
+            "parse_mode" => "Markdown",
+            'reply_markup' => json_encode([
+                'inline_keyboard' => $inline_keyboard,
+
+            ])
+
+        ]);
+});
 
 $botman->hears("Player Type.*", function ($bot) {
     $telegramUser = $bot->getUser();
@@ -918,7 +1122,7 @@ $botman->hears("Как пользоваться", function ($bot) {
 $botman->hears("Сбросить фильтр", function ($bot) {
     $bot->userStorage()->delete();
 
-   filterMenu($bot,"Фильтры сброшены");
+    filterMenu($bot, "Фильтры сброшены");
 
 });
 
