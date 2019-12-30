@@ -465,7 +465,6 @@ function filterMenu($bot, $message)
     $hand = $bot->userStorage()->get("hand") ?? null;
 
 
-
     $overall_min = $bot->userStorage()->get("overall_min") ?? null;
     $overall_max = $bot->userStorage()->get("overall_max") ?? null;
 
@@ -486,8 +485,8 @@ function filterMenu($bot, $message)
         ["Card Type" . ($card == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"), "Synergy" . ($synergies == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
         ["League" . ($league == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"), "Team" . ($team == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
         ["Nationality" . ($nationality == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"), "Overall" . ($overall == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
-        ["Height Min" . ($height_min == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"),"Height Max" . ($height_max == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85") ],
-        ["Weight" . ($weight == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85") ],
+        ["Height Min" . ($height_min == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"), "Height Max" . ($height_max == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
+        ["Weight" . ($weight == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
         ["Position" . ($position == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"), "Hand" . ($hand == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
         ["Сбросить фильтр"],
         ["Главное меню"],
@@ -726,7 +725,7 @@ $botman->hears("Position.*", function ($bot) {
 
         array_push($tmp_menu, ["text" => $ptype["title"], "callback_data" => "/filter position " . $ptype["value"]]);
 
-        if ($key % 2 == 0 || count(MENU["position"]) == $key + 1) {
+        if ($key % 4 == 0 || count(MENU["position"]) == $key + 1) {
             array_push($inline_keyboard, $tmp_menu);
             $tmp_menu = [];
         }
@@ -752,15 +751,10 @@ $botman->hears("Hand.*", function ($bot) {
     $inline_keyboard = [];
     $tmp_menu = [];
 
-    foreach (MENU["hand"] as $key => $ptype) {
-
+    foreach (MENU["hand"] as $key => $ptype)
         array_push($tmp_menu, ["text" => $ptype["title"], "callback_data" => "/filter hand " . $ptype["value"]]);
 
-        if ($key % 3 == 0 || count(MENU["hand"]) == $key + 1) {
-            array_push($inline_keyboard, $tmp_menu);
-            $tmp_menu = [];
-        }
-    }
+    array_push($inline_keyboard, $tmp_menu);
 
     $bot->sendRequest("sendMessage",
         [

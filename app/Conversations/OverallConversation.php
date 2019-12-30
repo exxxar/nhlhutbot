@@ -37,8 +37,6 @@ class OverallConversation extends Conversation
 
             $this->bot->reply("Значение ".$this->bot->userStorage()->get("overall_min")." установлено!");
 
-            $this->filterMenu("Обновлен фильтр");
-
             $this->maxOverall();
 
         });
