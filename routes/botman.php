@@ -631,10 +631,15 @@ $botman->hears("/card_info ([0-9]+)", function ($bot, $cardId) {
 $botman->hears("Player Name.*", function ($bot) {
 
 
-    $bot->ask('Введите имя игрока', function (Answer $answer){
+    $bot->ask('Введите имя игрока', function (Answer $answer) use ($bot) {
 
         $full_name = $answer->getText();
 
+        $bot->userStorage()->save([
+            "full_name" => strlen(trim($full_name)) == 0 ? null : $full_name
+        ]);
+
+        $bot->reply("Значение установлено!");
        /* $bb = resolve('botman');
 
         $bb->userStorage()->save([
@@ -645,6 +650,8 @@ $botman->hears("Player Name.*", function ($bot) {
 
         $this->filterMenu($bb, "Фильтр full_name изменен");*/
     });
+
+    filterMenu($bot, "Фильтр full_name изменен");
 
 });
 
@@ -936,56 +943,7 @@ $botman->hears("Как пользоваться", function ($bot) {
 $botman->hears("Сбросить фильтр", function ($bot) {
     $bot->userStorage()->delete();
 
-    $telegramUser = $bot->getUser();
-    $id = $telegramUser->getId();
-
-    $full_name = $bot->userStorage()->get("full_name") ?? null;
-    $card = $bot->userStorage()->get("card") ?? null;
-    $ptype = $bot->userStorage()->get("ptype") ?? null;
-    $synergies = $bot->userStorage()->get("synergies") ?? null;
-    $league = $bot->userStorage()->get("league") ?? null;
-    $team = $bot->userStorage()->get("team") ?? null;
-    $nationality = $bot->userStorage()->get("nationality") ?? null;
-
-    $overall_min = $bot->userStorage()->get("overall_min") ?? null;
-    $overall_max = $bot->userStorage()->get("overall_max") ?? null;
-
-    $overall = ($overall_min || $overall_max) ?? null;
-
-    $height_min = $bot->userStorage()->get("height_min") ?? null;
-    $height_max = $bot->userStorage()->get("height_max") ?? null;
-
-    $height = ($height_min || $height_max) ?? null;
-
-    $weight_min = $bot->userStorage()->get("weight_min") ?? null;
-    $weight_max = $bot->userStorage()->get("weight_max") ?? null;
-
-    $weight = ($weight_min || $weight_max) ?? null;
-
-    $keyboard = [
-        ["Player Name" . ($full_name == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"), "Player Type" . ($ptype == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
-        ["Card Type" . ($card == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"), "Synergy" . ($synergies == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
-        ["League" . ($league == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"), "Team" . ($team == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
-        ["Nationality" . ($nationality == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"), "Overall" . ($overall == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
-        ["Height" . ($height == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85"), "Weight" . ($weight == null ? "\xE2\x9D\x8E" : "\xE2\x9C\x85")],
-        ["Сбросить фильтр"],
-        ["Главное меню"],
-    ];
-
-
-    $bot->sendRequest("sendMessage",
-        [
-            "chat_id" => "$id",
-            "text" => "Фильтры сброшены",
-            "parse_mode" => "Markdown",
-            'reply_markup' => json_encode([
-                'keyboard' => $keyboard,
-                'one_time_keyboard' => false,
-                'resize_keyboard' => true
-            ])
-
-        ]);
-
+   filterMenu($bot,"Фильтры сброшены");
 
 });
 
