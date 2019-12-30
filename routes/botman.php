@@ -1133,7 +1133,7 @@ $botman->hears("Применить фильтр", function ($bot) {
 
     $weight = ($weight_min && $weight_max) ?? null;
 
-    $query = "draw=5&start=0&length=100";
+    $query = "draw=5&start=0&length=25";
 
     if ($overall)
         $query .= "&columns[$index][data]=overall&columns[$index][search][value]=$overall_min<$overall_max&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
