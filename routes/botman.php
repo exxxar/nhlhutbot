@@ -631,15 +631,18 @@ $botman->hears("/card_info ([0-9]+)", function ($bot, $cardId) {
 $botman->hears("Player Name.*", function ($bot) {
 
 
-    $bot->ask('Введите имя игрока', function ($bot, Answer $answer) {
+    $bot->ask('Введите имя игрока', function ( Answer $answer) {
 
         $full_name = $answer->getText();
 
-        $bot->userStorage()->save([
+        $botman = resolve('botman');
+        $botman->userStorage()->save([
             "full_name" => strlen(trim($full_name)) == 0 ? null : $full_name
         ]);
 
-        $bot->reply("Значение установлено!");
+        $botman->reply("Значение установлено!");
+
+        filterMenu($botman, "Фильтр full_name изменен");
        /* $bb = resolve('botman');
 
         $bb->userStorage()->save([
@@ -651,7 +654,7 @@ $botman->hears("Player Name.*", function ($bot) {
         $this->filterMenu($bb, "Фильтр full_name изменен");*/
     });
 
-    filterMenu($bot, "Фильтр full_name изменен");
+
 
 });
 
