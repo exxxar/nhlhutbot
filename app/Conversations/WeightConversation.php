@@ -27,7 +27,7 @@ class WeightConversation extends Conversation
 
     public function minWeight(){
         $this->ask('Минимальное значение', function ( Answer $answer) {
-            if ($answer->isInteractiveMessageReply()) {
+
                 $weight = $answer->getText();
 
 
@@ -40,14 +40,14 @@ class WeightConversation extends Conversation
                 $this->filterMenu("Обновлен фильтр");
 
                 $this->maxWeight();
-            }
+
 
         });
     }
     public function maxWeight(){
         $this->ask('Максимальное значние', function ( Answer $answer) {
 
-            if ($answer->isInteractiveMessageReply()) {
+
                 $weight = $answer->getText();
 
 
@@ -58,7 +58,7 @@ class WeightConversation extends Conversation
                 $this->bot->reply("Значение " . $this->bot->userStorage()->get("weight_max") . " установлено!");
 
                 $this->filterMenu("Обновлен фильтр");
-            }
+
         });
     }
 }

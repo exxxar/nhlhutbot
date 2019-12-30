@@ -524,12 +524,13 @@ $botman->hears("Все карточки", function ($bot) {
                 'content' => $query
             ),
         ));
+
+        ini_set('max_execution_time', 1000000);
         $content = file_get_contents(
             $file = 'https://nhlhutbuilder.com/php/player_stats.php',
             $use_include_path = false,
             $context);
-
-        Log::info(print_r(json_decode($content)->data, true));
+        ini_set('max_execution_time', 60);
 
 
     } catch (ErrorException $e) {
@@ -578,7 +579,9 @@ $botman->hears("/card_info ([0-9]+)", function ($bot, $cardId) {
     $id = $telegramUser->getId();
 
     try {
+        ini_set('max_execution_time', 1000000);
         $content = file_get_contents("https://nhlhutbuilder.com/player-stats.php?sb=1&id=$cardId");
+        ini_set('max_execution_time', 60);
     } catch (ErrorException $e) {
         $content = "";
     }
@@ -1044,12 +1047,13 @@ $botman->hears("/all_cards ([0-9]+)", function ($bot, $page) {
                 'content' => $query
             ),
         ));
+
+        ini_set('max_execution_time', 1000000);
         $content = file_get_contents(
             $file = 'https://nhlhutbuilder.com/php/player_stats.php',
             $use_include_path = false,
             $context);
-
-        Log::info(print_r(json_decode($content)->data, true));
+        ini_set('max_execution_time', 60);
 
 
     } catch (ErrorException $e) {
@@ -1105,7 +1109,7 @@ $botman->hears("Применить фильтр", function ($bot) {
     $telegramUser = $bot->getUser();
     $id = $telegramUser->getId();
 
-    $index = 0;
+    $index = -1;
 
     $full_name = $bot->userStorage()->get("full_name") ?? null;
     $card = $bot->userStorage()->get("card") ?? null;
@@ -1133,16 +1137,16 @@ $botman->hears("Применить фильтр", function ($bot) {
 
     $weight = ($weight_min && $weight_max) ?? null;
 
-    $query = "draw=5&start=0&length=25";
+    $query = "draw=5&start=0&length=10";
 
     if ($overall)
-        $query .= "&columns[$index][data]=overall&columns[$index][search][value]=$overall_min<$overall_max&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
+        $query .= "&columns[" . (++$index) . "][data]=overall&columns[$index][search][value]=$overall_min<$overall_max&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
 
-    if (strlen(trim($full_name)) > 0)
+    if ($full_name)
         $query .= "&columns[" . (++$index) . "][data]=full_name&columns[$index][search][value]=$full_name&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
 
     if ($league)
-        $query .= "&columns[" . (++$index) . "][data]=league&columns[$index][search][value]=$league&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
+        $query .= "&columns[" . (++$index) . "][data]=league&columns[$index][search][value]=$league";
 
     if ($position)
         $query .= "&columns[" . (++$index) . "][data]=position&columns[$index][search][value]=$position&columns[${index}][searchable]=true&columns[$index][orderable]=true&columns[$index][search][regex]=true";
@@ -1180,10 +1184,13 @@ $botman->hears("Применить фильтр", function ($bot) {
                 'content' => $query
             ),
         ));
+
+        ini_set('max_execution_time', 1000000);
         $content = file_get_contents(
             $file = 'https://nhlhutbuilder.com/php/player_stats.php',
             $use_include_path = false,
             $context);
+        ini_set('max_execution_time', 60);
 
 
     } catch (ErrorException $e) {

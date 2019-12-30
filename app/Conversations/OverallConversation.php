@@ -27,7 +27,7 @@ class OverallConversation extends Conversation
 
     public function minOverall(){
         $this->ask('Минимальное значение', function ( Answer $answer) {
-            if ($answer->isInteractiveMessageReply()) {
+
                 $overall = $answer->getText();
 
 
@@ -38,14 +38,14 @@ class OverallConversation extends Conversation
                 $this->bot->reply("Значение " . $this->bot->userStorage()->get("overall_min") . " установлено!");
 
                 $this->maxOverall();
-            }
+
 
         });
     }
     public function maxOverall(){
         $this->ask('Максимальное значние', function ( Answer $answer) {
 
-            if ($answer->isInteractiveMessageReply()) {
+
                 $overall = $answer->getText();
 
 
@@ -56,7 +56,7 @@ class OverallConversation extends Conversation
                 $this->bot->reply("Значение " . $this->bot->userStorage()->get("overall_max") . " установлено!");
 
                 $this->filterMenu("Обновлен фильтр");
-            }
+
         });
     }
 }
