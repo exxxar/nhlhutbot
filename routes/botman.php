@@ -514,31 +514,6 @@ $botman->hears("Все карточки", function ($bot) {
     $telegramUser = $bot->getUser();
     $id = $telegramUser->getId();
 
-    $index = 0;
-
-    $full_name = $bot->userStorage()->get("full_name") ?? '';
-    $card = $bot->userStorage()->get("card") ?? '';
-    $ptype = $bot->userStorage()->get("ptype") ?? '';
-    $synergies = $bot->userStorage()->get("synergies") ?? '';
-    $league = $bot->userStorage()->get("league") ?? '';
-    $team = $bot->userStorage()->get("team") ?? '';
-    $nationality = $bot->userStorage()->get("nationality") ?? '';
-    $position = $bot->userStorage()->get("position") ?? '';
-    $hand = $bot->userStorage()->get("hand") ?? '';
-
-
-    $overall_min = $bot->userStorage()->get("overall_min") ?? '';
-    $overall_max = $bot->userStorage()->get("overall_max") ?? '';
-
-
-    $height_min = $bot->userStorage()->get("height_min") ?? '';
-    $height_max = $bot->userStorage()->get("height_max") ?? '';
-
-
-    $weight_min = $bot->userStorage()->get("weight_min") ?? '';
-    $weight_max = $bot->userStorage()->get("weight_max") ?? '';
-
-
     $query = "draw=5&start=0&length=10";
 
     try {
@@ -577,7 +552,7 @@ $botman->hears("Все карточки", function ($bot) {
 
         $keybord = [
             [
-                ['text' => "\xE2\x8F\xA9Информация по карточке", 'callback_data' => "/card_info $cardId"]
+                ['text' => "\xF0\x9F\x83\x8FИнформация по карточке", 'callback_data' => "/card_info $cardId"]
             ]
         ];
 
