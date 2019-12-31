@@ -1030,7 +1030,7 @@ $botman->hears("Nationality.*", function ($bot) {
 });
 
 $botman->hears("Поиск карточек|Фильтр карточек", function ($bot) {
-    filterMenu($bot, "Выбо фильтра");
+    filterMenu($bot, "Выбор фильтра");
 });
 $botman->hears("/all_cards ([0-9]+)", function ($bot, $page) {
     $telegramUser = $bot->getUser();

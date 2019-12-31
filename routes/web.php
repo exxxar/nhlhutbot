@@ -15,5 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::resources([
+    'cards' => 'CardsStorageNHLHUTController',
+]);
+
 Route::match(['get', 'post'], '/botman', 'BotManController@handle');
 Route::get('/botman/tinker', 'BotManController@tinker');
+
